@@ -1,10 +1,16 @@
+<?php
+session_start();
+if (isset($_SESSION['user_id'])) {
+    header('Location: home.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Typing Test Site</title>
-    <link rel="icon" type="image/x-icon" href="image/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -49,26 +55,23 @@
             transform: translateY(0);
         }
     </style>
-    
 </head>
 <body>
 <header class="site-header">
     <div class="logo">Typing Master</div>
     <nav>
         <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="leaderboard.html">Leaderboard</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="home.php">Home</a></li>
+            <li><a href="about.php">About</a></li>
+            <li><a href="leaderboard.php">Leaderboard</a></li>
         </ul>
     </nav>
 </header>
 
-
 <div id="login-section">
     <form id="login-form">
-        <input type="text" id="username" placeholder="Enter your username" required />
-        <input type="password" id="password" placeholder="Enter your password" required />
+        <input type="text" id="username" placeholder="Enter your username" maxlength="40" required />
+        <input type="password" id="password" placeholder="Enter your password" maxlength="40" required />
         <button type="submit">Start Typing</button>
     </form>
 </div>
@@ -117,21 +120,20 @@
         <div class="footer-section">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="leaderboard.html">Leaderboard</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="leaderboard.php">Leaderboard</a></li>
             </ul>
         </div>
         <div class="footer-section">
             <h3>Follow Us</h3>
             <div class="social-icons">
-                <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
                 <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
             </div>
         </div>
     </div>
 </footer>
+
 <script src="words.js"></script>
 <script>
     let isTimerRunning = false;
@@ -182,26 +184,26 @@
     // Check login status
     document.addEventListener('DOMContentLoaded', () => {
         console.log('Checking login status...');
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        const loginTime = localStorage.getItem('loginTime');
-        const currentTime = Date.now();
-        const oneHour = 60 * 60 * 1000; // One hour
-
-        console.log('isLoggedIn:', isLoggedIn, 'loginTime:', loginTime, 'currentTime:', currentTime);
-
-        if (isLoggedIn === 'true' && loginTime && (currentTime - loginTime < oneHour)) {
-            console.log('User is logged in, showing main content');
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            generateRandomSentence();
-        } else {
-            console.log('User is not logged in or session expired, showing login section');
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('loginTime');
-            localStorage.removeItem('username');
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('main-content').style.display = 'none';
-        }
+        fetch('check_session.php', {
+            method: 'GET'
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.isLoggedIn) {
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    generateRandomSentence();
+                } else {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('loginTime');
+                    localStorage.removeItem('username');
+                    document.getElementById('login-section').style.display = 'block';
+                    document.getElementById('main-content').style.display = 'none';
+                }
+            })
+            .catch(err => {
+                console.error('Error checking session:', err);
+            });
 
         // Prevent copying the sentence
         const randomSentence = document.getElementById('random-sentence');
@@ -215,22 +217,25 @@
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value.trim();
 
+        if (username.length > 40 || password.length > 40) {
+            alert('Username and password must not exceed 40 characters');
+            return;
+        }
+
         fetch('save.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
         })
-            .then(res => res.text())
+            .then(res => res.json())
             .then(data => {
                 console.log('Server response:', data);
-                alert(data);
-                if (data.includes('success')) {
+                alert(data.message);
+                if (data.status === 'success') {
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('loginTime', Date.now());
                     localStorage.setItem('username', username);
-                    document.getElementById('login-section').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                    generateRandomSentence();
+                    window.location.href = 'home.php';
                 }
             })
             .catch(err => {
@@ -241,32 +246,27 @@
 
     // Logout button
     document.getElementById('logout-button').addEventListener('click', () => {
-        const username = localStorage.getItem('username');
-
         fetch('logout.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `username=${encodeURIComponent(username)}`
+            body: `username=${encodeURIComponent(localStorage.getItem('username'))}`
         })
-            .then(res => res.text())
+            .then(res => res.json())
             .then(data => {
                 console.log('Logout response:', data);
-                if (data.includes('success')) {
-                    alert('Successfully logged out');
-                } else {
-                    alert('Error during logout');
+                alert(data.message);
+                if (data.status === 'success') {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('loginTime');
+                    localStorage.removeItem('username');
+                    document.getElementById('login-section').style.display = 'block';
+                    document.getElementById('main-content').style.display = 'none';
                 }
             })
             .catch(err => {
                 console.error('⛔ Error during logout:', err);
                 alert('Failed to connect to the server');
             });
-
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('loginTime');
-        localStorage.removeItem('username');
-        document.getElementById('login-section').style.display = 'block';
-        document.getElementById('main-content').style.display = 'none';
     });
 
     // Start timer
@@ -299,11 +299,31 @@
             const wpm = minutes > 0 ? (cpm / 5).toFixed(2) : 0;
             const mistakes = countMistakes(text, currentSentence);
 
-            // Store results
+            // Store results in localStorage
             localStorage.setItem('timeTaken', formatTime(timeElapsed));
             localStorage.setItem('cpm', cpm);
             localStorage.setItem('wpm', wpm);
             localStorage.setItem('mistakes', mistakes);
+
+            // Send results to server
+            fetch('save_score.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `wpm=${encodeURIComponent(wpm)}&cpm=${encodeURIComponent(cpm)}&mistakes=${encodeURIComponent(mistakes)}`
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Score save response:', data);
+                    if (data.status === 'success') {
+                        alert('Score saved successfully!');
+                    } else {
+                        alert('Error saving score: ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error saving score:', err);
+                    alert('Failed to connect to the server');
+                });
 
             // Display results
             document.getElementById('time-taken').textContent = formatTime(timeElapsed);

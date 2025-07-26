@@ -1,4 +1,5 @@
-// in this file there is so many word to create random Sentence
+// in this file i made array that has a lots of word
+// the usage is in index.html and it is a repository for find a random text
 const words = [
     'a', 'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
     'sed', 'do', 'eiusmod', 'tempor', 'incididunt', 'ut', 'labore', 'et', 'dolore',

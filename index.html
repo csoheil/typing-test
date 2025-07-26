@@ -49,6 +49,7 @@
             transform: translateY(0);
         }
     </style>
+    
 </head>
 <body>
 <header class="site-header">
@@ -62,6 +63,7 @@
         </ul>
     </nav>
 </header>
+
 
 <div id="login-section">
     <form id="login-form">
@@ -97,7 +99,6 @@
     <svg width="100%" height="20" viewBox="0 0 100 20" preserveAspectRatio="none">
         <path d="M0 10 Q25 0 50 10 T100 10" fill="none" stroke="#60a5fa" stroke-width="1" />
     </svg>
-
     <div id="scores-section" style="display: none;">
         <h2>Your Scores</h2>
         <p>Time Taken: <span id="time-taken"></span></p>
@@ -131,3 +132,207 @@
         </div>
     </div>
 </footer>
+<script src="words.js"></script>
+<script>
+    let isTimerRunning = false;
+    let startTime;
+    let timerInterval;
+    let currentSentence = '';
+
+    // Format time as mm:ss
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Select random words
+    function getRandomWords(arr, num) {
+        const copy = [...arr];
+        const result = [];
+        for (let i = copy.length - 1; i > 0 && result.length < num; i--) {
+            const randomIndex = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[randomIndex]] = [copy[randomIndex], copy[i]];
+            result.push(copy[i]);
+        }
+        return result.slice(0, num);
+    }
+
+    // Generate random sentence
+    function generateRandomSentence() {
+        const randomWords = getRandomWords(words, 10);
+        currentSentence = randomWords.join(' ');
+        const randomSentence = document.getElementById('random-sentence');
+        randomSentence.textContent = currentSentence;
+        randomSentence.classList.remove('visible');
+        setTimeout(() => randomSentence.classList.add('visible'), 100);
+    }
+
+    // Count mistakes
+    function countMistakes(inputText, targetText) {
+        let mistakes = 0;
+        for (let i = 0; i < Math.max(inputText.length, targetText.length); i++) {
+            if (inputText[i] !== targetText[i]) {
+                mistakes++;
+            }
+        }
+        return mistakes;
+    }
+
+    // Check login status
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Checking login status...');
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        const loginTime = localStorage.getItem('loginTime');
+        const currentTime = Date.now();
+        const oneHour = 60 * 60 * 1000; // One hour
+
+        console.log('isLoggedIn:', isLoggedIn, 'loginTime:', loginTime, 'currentTime:', currentTime);
+
+        if (isLoggedIn === 'true' && loginTime && (currentTime - loginTime < oneHour)) {
+            console.log('User is logged in, showing main content');
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            generateRandomSentence();
+        } else {
+            console.log('User is not logged in or session expired, showing login section');
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('loginTime');
+            localStorage.removeItem('username');
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('main-content').style.display = 'none';
+        }
+
+        // Prevent copying the sentence
+        const randomSentence = document.getElementById('random-sentence');
+        randomSentence.addEventListener('copy', e => e.preventDefault());
+        randomSentence.addEventListener('contextmenu', e => e.preventDefault());
+    });
+
+    // Handle login form
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        fetch('save.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        })
+            .then(res => res.text())
+            .then(data => {
+                console.log('Server response:', data);
+                alert(data);
+                if (data.includes('success')) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('loginTime', Date.now());
+                    localStorage.setItem('username', username);
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    generateRandomSentence();
+                }
+            })
+            .catch(err => {
+                console.error('⛔ Error sending data:', err);
+                alert('Failed to connect to the server');
+            });
+    });
+
+    // Logout button
+    document.getElementById('logout-button').addEventListener('click', () => {
+        const username = localStorage.getItem('username');
+
+        fetch('logout.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `username=${encodeURIComponent(username)}`
+        })
+            .then(res => res.text())
+            .then(data => {
+                console.log('Logout response:', data);
+                if (data.includes('success')) {
+                    alert('Successfully logged out');
+                } else {
+                    alert('Error during logout');
+                }
+            })
+            .catch(err => {
+                console.error('⛔ Error during logout:', err);
+                alert('Failed to connect to the server');
+            });
+
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('loginTime');
+        localStorage.removeItem('username');
+        document.getElementById('login-section').style.display = 'block';
+        document.getElementById('main-content').style.display = 'none';
+    });
+
+    // Start timer
+    document.getElementById('typing-area').addEventListener('keydown', function () {
+        if (!isTimerRunning) {
+            isTimerRunning = true;
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+    });
+
+    // Update timer
+    function updateTimer() {
+        const currentTime = Date.now();
+        const elapsedTime = (currentTime - startTime) / 1000;
+        document.getElementById('timer').textContent = formatTime(elapsedTime);
+    }
+
+    // End typing test
+    document.getElementById('finish-test').addEventListener('click', function () {
+        if (isTimerRunning) {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            const endTime = Date.now();
+            const timeElapsed = (endTime - startTime) / 1000;
+            const text = document.getElementById('typing-area').value.trim();
+            const charCount = text.length;
+            const minutes = timeElapsed / 60;
+            const cpm = minutes > 0 ? (charCount / minutes).toFixed(2) : 0;
+            const wpm = minutes > 0 ? (cpm / 5).toFixed(2) : 0;
+            const mistakes = countMistakes(text, currentSentence);
+
+            // Store results
+            localStorage.setItem('timeTaken', formatTime(timeElapsed));
+            localStorage.setItem('cpm', cpm);
+            localStorage.setItem('wpm', wpm);
+            localStorage.setItem('mistakes', mistakes);
+
+            // Display results
+            document.getElementById('time-taken').textContent = formatTime(timeElapsed);
+            document.getElementById('cpm').textContent = cpm;
+            document.getElementById('wpm').textContent = wpm;
+            document.getElementById('mistakes').textContent = mistakes;
+
+            // Reset test
+            document.getElementById('typing-area').value = '';
+            generateRandomSentence();
+        }
+    });
+
+    // Show scores
+    document.getElementById('go-to-scores').addEventListener('click', function () {
+        const scoresSection = document.getElementById('scores-section');
+        scoresSection.style.display = 'block';
+        setTimeout(() => scoresSection.classList.add('show'), 10);
+
+        const timeTaken = localStorage.getItem('timeTaken');
+        if (timeTaken) {
+            document.getElementById('time-taken').textContent = timeTaken;
+            document.getElementById('cpm').textContent = localStorage.getItem('cpm');
+            document.getElementById('wpm').textContent = localStorage.getItem('wpm');
+            document.getElementById('mistakes').textContent = localStorage.getItem('mistakes');
+        } else {
+            scoresSection.innerHTML = '<p>No scores yet. Please complete a typing test first.</p>';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,9 +1,5 @@
 <?php
 session_start();
-if (isset($_SESSION['user_id'])) {
-    header('Location: home.php');
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -185,10 +181,17 @@ if (isset($_SESSION['user_id'])) {
     document.addEventListener('DOMContentLoaded', () => {
         console.log('Checking login status...');
         fetch('check_session.php', {
-            method: 'GET'
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
         })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
+                console.log('Session check response:', data);
                 if (data.isLoggedIn) {
                     document.getElementById('login-section').style.display = 'none';
                     document.getElementById('main-content').style.display = 'block';
@@ -203,6 +206,7 @@ if (isset($_SESSION['user_id'])) {
             })
             .catch(err => {
                 console.error('Error checking session:', err);
+                alert('Failed to check session status: ' + err.message);
             });
 
         // Prevent copying the sentence
@@ -227,20 +231,27 @@ if (isset($_SESSION['user_id'])) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
         })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
-                console.log('Server response:', data);
+                console.log('Login response:', data);
                 alert(data.message);
                 if (data.status === 'success') {
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('loginTime', Date.now());
                     localStorage.setItem('username', username);
-                    window.location.href = 'home.php';
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    generateRandomSentence();
                 }
             })
             .catch(err => {
-                console.error('⛔ Error sending data:', err);
-                alert('Failed to connect to the server');
+                console.error('Error sending login data:', err);
+                alert('Failed to connect to the server: ' + err.message);
             });
     });
 
@@ -251,7 +262,12 @@ if (isset($_SESSION['user_id'])) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `username=${encodeURIComponent(localStorage.getItem('username'))}`
         })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
                 console.log('Logout response:', data);
                 alert(data.message);
@@ -264,8 +280,8 @@ if (isset($_SESSION['user_id'])) {
                 }
             })
             .catch(err => {
-                console.error('⛔ Error during logout:', err);
-                alert('Failed to connect to the server');
+                console.error('Error during logout:', err);
+                alert('Failed to connect to the server: ' + err.message);
             });
     });
 
@@ -311,7 +327,12 @@ if (isset($_SESSION['user_id'])) {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `wpm=${encodeURIComponent(wpm)}&cpm=${encodeURIComponent(cpm)}&mistakes=${encodeURIComponent(mistakes)}`
             })
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! Status: ${res.status}`);
+                    }
+                    return res.json();
+                })
                 .then(data => {
                     console.log('Score save response:', data);
                     if (data.status === 'success') {
@@ -322,11 +343,11 @@ if (isset($_SESSION['user_id'])) {
                 })
                 .catch(err => {
                     console.error('Error saving score:', err);
-                    alert('Failed to connect to the server');
+                    alert('Failed to connect to the server: ' + err.message);
                 });
 
             // Display results
-            document.getElementById('time-taken').textContent = formatTime(timeElapsed);
+            document.getElementById('time-taken').textContent = formatTime(elapsedTime);
             document.getElementById('cpm').textContent = cpm;
             document.getElementById('wpm').textContent = wpm;
             document.getElementById('mistakes').textContent = mistakes;

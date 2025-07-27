@@ -1,1 +1,1 @@
-# This project is not complete, i work on it
+# This project is not complete, I work on it

@@ -1,3 +1,5 @@
+// this is a file that index.php use it to make the random sentence
+
 const words = [
 "a" , "about" , "above" , "accept" , "accessory" , "accident" , "accommodation" , "account" , "across" , "act" ,
 

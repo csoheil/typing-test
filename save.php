@@ -1,21 +1,32 @@
 <?php
 require_once 'DatabaseConnector.php';
 
+header('Content-Type: application/json');
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST["username"] ?? '';
     $password = $_POST["password"] ?? '';
     $char = 40;
-}
+
     if (empty($username) || empty($password)) {
-        echo "Username and password are required.";
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Username and password are required.'
+        ]);
         exit;
     }
     if (strlen($username) > $char) {
-        echo "Username is too long.";
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Username is too long.'
+        ]);
         exit;
     }
     if (strlen($password) > $char) {
-        echo "Password is too long.";
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Password is too long.'
+        ]);
         exit;
     }
 
@@ -28,9 +39,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bindParam(":password", $password);
         $stmt->execute();
 
-        echo "Data inserted successfully.";
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Data inserted successfully.'
+        ]);
     } catch (PDOException $e) {
         error_log($e->getMessage());
-        echo "problem in inserting data.";
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Problem in inserting data.'
+        ]);
     }
+}
 ?>

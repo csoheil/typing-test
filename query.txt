@@ -1,0 +1,18 @@
+Run this query in your database to start Measuring your typing skills
+
+
+
+CREATE TABLE user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE scores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    wpm DECIMAL(5,2) NOT NULL,
+    cpm DECIMAL(5,2) NOT NULL,
+    mistakes INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);

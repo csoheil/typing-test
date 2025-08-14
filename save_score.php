@@ -4,6 +4,8 @@ require_once 'DatabaseConnector.php';
 
 header('Content-Type: application/json');
 
+error_log('Session data: ' . print_r($_SESSION, true));
+
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['status' => 'error', 'message' => 'Not logged in']);
     exit;

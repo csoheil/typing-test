@@ -12,19 +12,6 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles_css/style.css">
     <style>
-        #logout-button {
-            width: 10%;
-            padding: 18px;
-            background: linear-gradient(45deg, #283d94, #2341a9);
-            color: #ffffff;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 19px;
-            font-weight: 700;
-            transition: all 0.5s ease;
-            box-shadow: 0 6px 20px rgba(70, 97, 185, 0.3);
-        }
         #login-section {
             display: block;
             text-align: center;
@@ -79,7 +66,6 @@ session_start();
             <p>Welcome to the typing test site!</p>
         </div>
         <button id="go-to-scores">Go to Your Scores <strong>scroll down</strong> or <strong>click leaderboard</strong></button>
-        <button id="logout-button">Logout</button>
     </header>
 
     <div id="middle-section">
@@ -255,36 +241,6 @@ session_start();
             });
     });
 
-    // Logout button
-    document.getElementById('logout-button').addEventListener('click', () => {
-        fetch('logout.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `username=${encodeURIComponent(localStorage.getItem('username'))}`
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error! Status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(data => {
-                console.log('Logout response:', data);
-                alert(data.message);
-                if (data.status === 'success') {
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('loginTime');
-                    localStorage.removeItem('username');
-                    document.getElementById('login-section').style.display = 'block';
-                    document.getElementById('main-content').style.display = 'none';
-                }
-            })
-            .catch(err => {
-                console.error('Error during logout:', err);
-                alert('Failed to connect to the server: ' + err.message);
-            });
-    });
-
     // Start timer
     document.getElementById('typing-area').addEventListener('keydown', function () {
         if (!isTimerRunning) {
@@ -347,7 +303,7 @@ session_start();
                 });
 
             // Display results
-            document.getElementById('time-taken').textContent = formatTime(elapsedTime);
+            document.getElementById('time-taken').textContent = formatTime(timeElapsed);
             document.getElementById('cpm').textContent = cpm;
             document.getElementById('wpm').textContent = wpm;
             document.getElementById('mistakes').textContent = mistakes;

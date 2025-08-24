@@ -5,20 +5,14 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
-    <link href="styles_css\style_home.css"/>
-
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="styles_css/style_about.css">
 
 
 </head>

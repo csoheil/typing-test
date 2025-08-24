@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"] ?? '';
     $maxLength = 40;
 
+    // Validate inputs
     if (empty($username) || empty($password)) {
         echo json_encode([
             'status' => 'error',
@@ -47,7 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
         }
 
-
+        // Hash the password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert the new user
         $stmt = $conn->prepare("INSERT INTO user (username, password) VALUES (:username, :password)");
@@ -70,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         error_log('Error in save.php: ' . $e->getMessage());
         echo json_encode([
             'status' => 'error',
-            'message' => 'Failed to insert data.'
+            'message' => 'Failed to insert data: ' . $e->getMessage() // Include detailed error for debugging
         ]);
     }
 }

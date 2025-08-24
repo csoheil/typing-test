@@ -124,7 +124,7 @@ session_start();
         <div class="footer-section">
             <h3>Follow Us</h3>
             <div class="social-icons">
-                <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://github.com/csoheil" target="_blank"><i class="fab fa-github"></i></a>
             </div>
         </div>
     </div>

@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$userManager->validateCsrfToken($postedCsrfToken)) {
         $error = 'Invalid CSRF token.';
     } else {
-        $newUsername = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $newUsername = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $newPassword = $_POST['password'] ?? '';
 
         // Additional validation
@@ -111,6 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="styles_css/style_home.css" rel="stylesheet">
 </head>
+<body>
+
 <body>
     <div class="container">
         <h1>Welcome to Your Dashboard</h1>

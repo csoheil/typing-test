@@ -68,12 +68,3 @@ http://localhost/index.php
 
 
 5. Login and start typing
-
-
-
-
-
-![Typing Test Screenshot](images/Screenshot_2025-08-31_211034.png)
-![Typing Test Screenshot](images/Screenshot_2025-08-31_211101.png)
-![Typing Test Screenshot](images/Screenshot_2025-08-31_211118.png)
-![Typing Test Screenshot](images/Screenshot_2025-08-31_211132.png)

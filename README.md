@@ -9,7 +9,7 @@ It shows you how many words per minute (WPM) you can type and how correct your t
 - Start and stop typing test  
 - Show words per minute (WPM)  
 - Show characters per minute (CPM)  
-- Show typing accuracy (%)  
+- Show typing accuracy 
 - Simple and clean design  
 - Save and show results (with PHP + MySQL)  
 
@@ -24,15 +24,6 @@ It shows you how many words per minute (WPM) you can type and how correct your t
 
 ---
 
-## 📦 How to Run
-1. Clone this project:  
-   ```bash
-   git clone # Test Type
-
-**Test Type** is a small project to check your **typing speed and accuracy**.  
-It shows you how many words per minute (WPM) you can type and how correct your typing is.  
-
----
 
 ## 🚀 Features
 - Start and stop typing test  

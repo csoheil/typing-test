@@ -55,7 +55,7 @@ It shows you how many words per minute (WPM) you can type and how correct your t
 
 ## 📦 How to Run
 1. Clone this project:  
-   ```bash
+
    git clone https://github.com/username/test-type.git
 
 2. Put the project folder inside your htdocs (XAMPP).
@@ -63,7 +63,7 @@ It shows you how many words per minute (WPM) you can type and how correct your t
 3. Import the database using query.txt.
 
 4. Open in your browser:
-```bash
+
 http://localhost/index.php
 
 

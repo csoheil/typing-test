@@ -73,4 +73,7 @@ http://localhost/index.php
 
 
 
-![Typing Test Screenshot](images/screenshot.png)
+![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211034.png)
+![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211101.png)
+![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211118.png)
+![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211132.png)

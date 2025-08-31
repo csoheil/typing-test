@@ -73,7 +73,7 @@ http://localhost/index.php
 
 
 
-![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211034.png)
-![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211101.png)
-![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211118.png)
-![Typing Test Screenshot](images/./Screenshot%202025-08-31%20211132.png)
+![Typing Test Screenshot](images/Screenshot_2025-08-31_211034.png)
+![Typing Test Screenshot](images/Screenshot_2025-08-31_211101.png)
+![Typing Test Screenshot](images/Screenshot_2025-08-31_211118.png)
+![Typing Test Screenshot](images/Screenshot_2025-08-31_211132.png)

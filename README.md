@@ -29,7 +29,7 @@ Whether you're practicing to become a faster typist 💨 or just curious about y
 ## 📦 Installation & Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/username/test-type.git
+   git clone https://github.com/csoheil/typing-test.git
 
 2. Move the project folder to your htdocs directory (XAMPP).
 

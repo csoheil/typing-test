@@ -46,8 +46,28 @@ http://localhost/index.php
 ## 📸 Screenshots
 
 
-  <img alt="📷" src="images/Screenshot_2025-08-31_211132.png">
-  <img alt="📷" src="images/Screenshot_2025-08-31_211118.png">
-   <img alt="📷" src="images/Screenshot_2025-08-31_211101.png">
-     <img alt="📷" src="images/Screenshot_2025-08-31_211034.png">
+<p align="center">
+  <img alt="📷" src="images/Screenshot_2025-08-31_211132.png" width="25%">
+  <img alt="📷" src="images/Screenshot_2025-08-31_211118.png" width="25%">
+  <img alt="📷" src="images/Screenshot_2025-08-31_211101.png" width="25%">
+  <img alt="📷" src="images/Screenshot_2025-08-31_211034.png" width="25%">
+</p>
 
+
+ ---
+
+## 🎯 Project Purposes
+
+**This project was created to:**
+
+1. Practice full-stack web development using **HTML, CSS, JavaScript, PHP, and MySQL**.
+  
+2. Improve my knowledge of **real-time applications** (timers, dynamic UI updates).
+  
+3. Gain experience in **building user authentication and result tracking systems**.
+  
+4. Provide a simple tool for anyone who wants to test and improve their typing speed.
+  
+5. Practice my **Git** skills.
+  
+6. Get familiar with **GitHub concepts** (README, contributions, fork, pull, push).  

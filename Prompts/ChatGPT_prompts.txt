@@ -1,1 +1,91 @@
 all prompts that used for ChatGPT
+
+extra point : chatgpt used for FrontEnd coding
+
+
+1) UI Layout Prompt
+
+Prompt 1:
+
+Create a clean, modern, responsive UI layout for a typing speed test web application. The layout should include: a header, a section for the random sentence, a typing area, a timer, a “Finish Test” button, and a results section. Use semantic HTML5 and responsive CSS with Flexbox or Grid. Provide clean and readable code.
+
+********			*********			*********			**********
+
+2) Animated Sentence Display Prompt
+
+Prompt 2:
+
+Generate CSS animations to display the random sentence with a smooth fade-in and slide-up effect. Make the animation reusable and easy to attach to any element. Provide the CSS class and an example of how to use it in HTML.
+
+********			*********			*********			**********
+
+
+3) Timer Component Prompt
+
+Prompt 3:
+
+Write a JavaScript timer component for a typing test. The timer should start on the first keypress, update every second, and stop when the user clicks the “Finish Test” button. Output the formatted time (MM:SS). Code must be modular and easy to reuse.
+
+********			*********			*********			**********
+
+
+4) Typing Accuracy & Mistake Counter Prompt
+
+Prompt 4:
+
+Write a JavaScript function that compares the user’s typed text to the target sentence and returns the number of mistakes. The function must consider missing characters, extra characters, and mismatches. Provide a clean implementation and explanation.
+
+********			*********			*********			**********
+
+
+5) Random Sentence Generator Prompt
+
+Prompt 5:
+
+Create a JavaScript function that generates a random sentence by selecting 10 random words from an array. Ensure words do not repeat, and the algorithm is efficient. Provide a clean standalone function.
+
+********			*********			*********			**********
+
+
+6) Typing Stats Calculations (WPM, CPM)
+
+Prompt 6:
+
+Write JavaScript code that calculates Characters Per Minute (CPM) and Words Per Minute (WPM) based on total typed characters and elapsed time in seconds. Make the function mathematically accurate and reusable.
+
+********			*********			*********			**********
+
+
+7) LocalStorage Data Saving Prompt
+
+Prompt 7:
+
+Create JavaScript code that saves typing test results (time, CPM, WPM, mistakes) to localStorage and retrieves them later on page load. Ensure the code handles missing values safely and is written in a clean, modular structure.
+
+********			*********			*********			**********
+
+
+
+8) Score Display UI Prompt
+
+Prompt 8:
+
+Build a responsive “Your Scores” panel UI with HTML & CSS. It must display values for Time, CPM, WPM, and Mistakes in a clean modern design. Use subtle shadows, rounded corners, and spacing consistent with modern UI design.
+
+********			*********			*********			**********
+
+
+9) Prevent Copy, Paste, and Right-Click Prompt
+
+Prompt 9:
+
+Generate JavaScript code that disables copy, paste, and right-click actions on the random sentence element to prevent cheating. Ensure the code is lightweight and works in all major browsers.
+
+********			*********			*********			**********
+
+
+10) Full Front-End Integration Prompt
+
+Prompt 10:
+
+Combine all front-end components (UI layout, animations, timer, typing logic, random sentence generator, stats calculation, and score saving) into a single JavaScript file. Write clean, modular code with clear comments explaining every function. Make sure the final JS file is production-ready.

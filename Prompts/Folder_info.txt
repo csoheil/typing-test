@@ -1,0 +1,4 @@
+Hi,
+In this folder, I’ve decided to include all the prompts I used with AI tools while building this project. I believe they can be helpful for other developers as examples of effective prompts, and useful for anyone interested in improving their workflow.
+
+These prompts are licensed under the MIT License, and you’re free to copy, use, and modify them to speed up your development process.

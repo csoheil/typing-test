@@ -1,1 +1,43 @@
 all prompts used for Grok
+
+
+extra info : grok was using for backend 
+
+
+"Build a complete backend-only project using Node.js + Express + MongoDB for a typing speed test. Include the exact 1000 English words as a const array in code (ball to zoom, all of them). Endpoints: POST /register, POST /login (JWT), GET /word (returns one random word from the 1000), POST /submit (receives typedText and duration, validates every word exists in the list case-insensitively, calculates WPM/CPM/accuracy, saves to DB), GET /leaderboard?period=daily|weekly|alltime. Use bcrypt, proper validation, full folder structure with models, routes, middleware."
+
+
+
+"Create a FastAPI (Python) backend with PostgreSQL. Seed the database with exactly these 1000 words: ball,cat,...,zoom using a script. JWT authentication. Endpoints: /auth/register, /auth/login, /word/random → returns one word, /test/submit → receives typed string + seconds, splits and checks each word against DB (case-insensitive), computes stats, saves result, returns score and current rank."
+
+
+
+"Write a full NestJS + TypeScript + TypeORM backend. Create a Word entity and seed it with all 1000 words (include full seed file). JWT guard. GET /words/random → {word: string}, POST /tests → validates typed words are in the official list, calculates WPM/CPM/accuracy, saves Test entity with user relation, GET /leaderboard with filters."
+
+
+
+"Generate a Laravel 11 API-only backend. Migration + seeder with the exact 1000 words table. Sanctum auth. Routes: /api/random-word, /api/submit-test (validates each word exists in words table), stores test with calculated stats, /api/leaderboard?type=daily."
+
+
+
+"Build a Go Fiber + GORM backend. Hardcode or seed exactly the 1000 words. JWT middleware. GET /word → random word, POST /submit → validates input words against list, calculates stats, saves to tests table, returns result + position in daily leaderboard."
+
+
+
+"Django REST Framework backend. Word model with all 1000 words via fixture. Token auth. /api/word/ → random, /api/submit/ → validates each word in request, saves TestResult, returns WPM/CPM/accuracy and rank."
+
+
+
+"Create a Supabase backend using only SQL + RPC functions. Table 'words' with 1000 rows (ball to zoom), function get_random_word() returns text, function submit_test(user_id, typed_text, duration) validates words and inserts into tests table with calculated stats."
+
+
+
+"Spring Boot Kotlin backend with JPA. Entity Word pre-filled with the 1000 words via data.sql. JWT security. GET /api/word/random, POST /api/test → validates typed words, saves Test entity, returns stats and current leaderboard position."
+
+
+
+"Rust Axum + SQLx (PostgreSQL) backend. Include all 1000 words in a const array or seeded table. JWT auth. GET /word → random, POST /submit → validates, calculates, saves, returns result + rank."
+
+
+
+"Create a complete .NET 8 Minimal API backend. Include the 1000 words in a static list. JWT authentication. GET /word → random word, POST /test → validates every typed word is in the list, calculates WPM/CPM/accuracy, saves to SQLite, returns result with current rank."

@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 
 // Only allow POST requests for security reasons
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Retrieve input values safely with null coalescing operator
+    // Retrieve input values sa fely with null coalescing operator
     $username = $_POST["username"] ?? '';
     $password = $_POST["password"] ?? '';
     $maxLength = 40;

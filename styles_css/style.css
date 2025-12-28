@@ -430,6 +430,17 @@ svg path {
     gap: 30px;
 }
 
+.social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-icons a {
+  font-size: 24px;
+  color: #333;
+  text-decoration: none;
+}
+
 .site-footer .social-icons a {
     font-size: 32px;
     color: #c6e5fa;
